@@ -110,23 +110,37 @@ router.get('/:projectId/files/:fileId', authenticate, async (req, res) => {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 });
-// Delete a file from project
-router.delete('/:projectId/files/:fileId', authenticate, async (req, res) => {
+// delete
+router.delete("/:projectId/files/:fileId", authenticate, async (req, res) => {
   try {
     const { projectId, fileId } = req.params;
 
-    const project = await Project.findOne({ _id: projectId, userId: req.user._id });
-    if (!project) return res.status(404).json({ message: 'Project not found' });
+    if (
+      !mongoose.Types.ObjectId.isValid(projectId) ||
+      !mongoose.Types.ObjectId.isValid(fileId)
+    ) {
+      return res.status(400).json({ message: "Invalid projectId or fileId" });
+    }
 
-    const file = project.files.id(fileId);
-    if (!file) return res.status(404).json({ message: 'File not found' });
+    const project = await Project.findOne({
+      _id: projectId,
+      userId: req.user._id,
+    });
+    if (!project) return res.status(404).json({ message: "Project not found" });
 
-    file.remove(); // Remove the file subdocument
+    // Alternative delete method:
+    const initialLength = project.files.length;
+    project.files = project.files.filter((f) => f._id.toString() !== fileId);
+
+    if (project.files.length === initialLength) {
+      return res.status(404).json({ message: "File not found" });
+    }
+
     await project.save();
-
-    res.json({ message: 'File deleted successfully' });
+    res.json({ message: "File deleted successfully" });
   } catch (error) {
-    res.status(500).json({ message: 'Server error', error: error.message });
+    console.error(error);
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 });
 
