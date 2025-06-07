@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const fileSchema = new mongoose.Schema({
   _id: {
     type: mongoose.Schema.Types.ObjectId,
-    auto: true, // Automatically generate a unique _id for each file
+    auto: true,
   },
   filename: {
     type: String,
