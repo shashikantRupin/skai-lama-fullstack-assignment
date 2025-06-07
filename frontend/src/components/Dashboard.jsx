@@ -5,7 +5,7 @@ import FileUpload from './FileUpload';
 import axios from 'axios';
 import './Dashboard.css';
 
-const baseURL = import.meta.env.VITE_API_BASE_URL;
+const baseURL =import.meta.env.VITE_API_BASE_URL;
 
 const Dashboard = () => {
   const { user, logout } = useAuth();
