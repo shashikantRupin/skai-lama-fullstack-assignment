@@ -216,3 +216,8 @@
     display: none;
   }
 }
+
+.create-project-btn{
+  background-color: #211935;
+  color: #fff;
+}

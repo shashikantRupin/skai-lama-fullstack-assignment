@@ -1,14 +1,30 @@
 import mongoose from "mongoose";
 
 const fileSchema = new mongoose.Schema({
-  filename: String, 
-  originalName: String, 
-  fileType: String, 
+  _id: {
+    type: mongoose.Schema.Types.ObjectId,
+    auto: true, // Automatically generate a unique _id for each file
+  },
+  filename: {
+    type: String,
+    required: true,
+  },
+  originalName: {
+    type: String,
+    required: true,
+  },
+  fileType: {
+    type: String,
+    required: true,
+  },
   uploadDate: {
     type: Date,
     default: Date.now,
   },
-  buffer: Buffer, 
+  buffer: {
+    type: Buffer,
+    required: true,
+  },
 });
 
 const projectSchema = new mongoose.Schema(

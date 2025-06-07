@@ -62,7 +62,7 @@ const Dashboard = () => {
             <div className="logo-icon">Q</div>
             <span>Ques.AI</span>
           </div>
-          
+
           <div className="header-actions">
             <span className="user-name">Welcome, {user?.name}</span>
             <button onClick={logout} className="btn btn-secondary">
@@ -77,9 +77,9 @@ const Dashboard = () => {
           <div className="section">
             <div className="section-header">
               <h2>Your Projects</h2>
-              <button 
+              <button
                 onClick={() => setShowProjectModal(true)}
-                className="btn btn-primary"
+                className="btn create-project-btn"
               >
                 + Create New Project
               </button>
@@ -89,20 +89,24 @@ const Dashboard = () => {
               <div className="empty-state">
                 <div className="empty-icon">📁</div>
                 <h3>No projects yet</h3>
-                <p>Create your first project to get started with AI transcription</p>
-                <button 
+                <p>
+                  Create your first project to get started with AI transcription
+                </p>
+                <button
                   onClick={() => setShowProjectModal(true)}
-                  className="btn btn-primary"
+                  className="btn create-project-btn"
                 >
                   Create New Project
                 </button>
               </div>
             ) : (
               <div className="projects-grid">
-                {projects.map(project => (
-                  <div 
-                    key={project._id} 
-                    className={`project-card ${selectedProject?._id === project._id ? 'selected' : ''}`}
+                {projects.map((project) => (
+                  <div
+                    key={project._id}
+                    className={`project-card ${
+                      selectedProject?._id === project._id ? "selected" : ""
+                    }`}
                     onClick={() => handleProjectSelect(project)}
                   >
                     <div className="project-header">
@@ -111,7 +115,9 @@ const Dashboard = () => {
                     </div>
                     <div className="project-stats">
                       <div className="stat">
-                        <span className="stat-number">{project.files?.length || 0}</span>
+                        <span className="stat-number">
+                          {project.files?.length || 0}
+                        </span>
                         <span className="stat-label">files</span>
                       </div>
                       <div className="stat">
@@ -131,11 +137,14 @@ const Dashboard = () => {
             <div className="section">
               <div className="section-header">
                 <h2>Upload Files</h2>
-                <p>Add podcast media or transcription text to "{selectedProject.name}"</p>
+                <p>
+                  Add podcast media or transcription text to "
+                  {selectedProject.name}"
+                </p>
               </div>
-              
-              <FileUpload 
-                project={selectedProject} 
+
+              <FileUpload
+                project={selectedProject}
                 onUploadSuccess={fetchProjects}
               />
             </div>
