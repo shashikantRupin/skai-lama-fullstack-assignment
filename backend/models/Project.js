@@ -1,31 +1,37 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-const projectSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true
+const fileSchema = new mongoose.Schema({
+  filename: String, 
+  originalName: String, 
+  fileType: String, 
+  uploadDate: {
+    type: Date,
+    default: Date.now,
   },
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
-  },
-  files: [{
-    filename: String,
-    originalName: String,
-    fileType: String,
-    uploadDate: {
-      type: Date,
-      default: Date.now
-    }
-  }],
-  status: {
-    type: String,
-    enum: ['active', 'completed', 'processing'],
-    default: 'active'
-  }
-}, {
-  timestamps: true
+  buffer: Buffer, 
 });
 
-export default mongoose.model('Project', projectSchema);
+const projectSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    files: [fileSchema], 
+    status: {
+      type: String,
+      enum: ["active", "completed", "processing"],
+      default: "active",
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+export default mongoose.model("Project", projectSchema);
