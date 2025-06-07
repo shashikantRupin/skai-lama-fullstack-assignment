@@ -1,0 +1,25 @@
+.project-modal {
+  min-width: 400px;
+}
+
+.project-modal .form-group {
+  margin-bottom: 24px;
+}
+
+.project-modal .form-input {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+.project-modal .form-input:focus {
+  background: white;
+  border-color: #8b5cf6;
+}
+
+@media (max-width: 480px) {
+  .project-modal {
+    min-width: auto;
+    width: 100%;
+    margin: 0;
+  }
+}
