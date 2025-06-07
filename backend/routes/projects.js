@@ -8,7 +8,11 @@ const router = express.Router();
 
 // Configuring multer for in-memory file storage (Buffer)
 const storage = multer.memoryStorage(); // file stored in memory
-const upload = multer({ storage });
+const upload = multer({
+  storage,
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB max
+});
+
 
 // Helper to validate ObjectId
 const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
@@ -56,7 +60,7 @@ router.post(
         return res.status(400).json({ message: "No file uploaded" });
       }
 
-      // Check file size (optional)
+      // Optional: Max size
       const maxSize = 10 * 1024 * 1024; // 10MB
       if (req.file.size > maxSize) {
         return res.status(400).json({ message: "File too large" });
@@ -72,9 +76,10 @@ router.post(
       }
 
       const fileData = {
-        buffer: req.file.buffer,
+        filename: req.file.originalname, // FIX: required by schema
         originalName: req.file.originalname,
         fileType: req.file.mimetype,
+        buffer: req.file.buffer,
         size: req.file.size,
         uploadDate: new Date(),
       };
@@ -82,10 +87,9 @@ router.post(
       project.files.push(fileData);
       await project.save();
 
-      // Return the project with populated file info
       res.status(201).json({
         message: "File uploaded successfully",
-        project: project,
+        project,
       });
     } catch (error) {
       console.error("Upload error:", error);
@@ -93,6 +97,7 @@ router.post(
     }
   }
 );
+
 
 
 // Get single project
