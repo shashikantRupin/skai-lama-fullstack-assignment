@@ -52,6 +52,16 @@ router.post(
         return res.status(400).json({ message: "Invalid project ID" });
       }
 
+      if (!req.file) {
+        return res.status(400).json({ message: "No file uploaded" });
+      }
+
+      // Check file size (optional)
+      const maxSize = 10 * 1024 * 1024; // 10MB
+      if (req.file.size > maxSize) {
+        return res.status(400).json({ message: "File too large" });
+      }
+
       const project = await Project.findOne({
         _id: projectId,
         userId: req.user._id,
@@ -61,26 +71,29 @@ router.post(
         return res.status(404).json({ message: "Project not found" });
       }
 
-      if (!req.file) {
-        return res.status(400).json({ message: "No file uploaded" });
-      }
-
       const fileData = {
-        buffer: req.file.buffer, // actual file content
+        buffer: req.file.buffer,
         originalName: req.file.originalname,
         fileType: req.file.mimetype,
+        size: req.file.size,
         uploadDate: new Date(),
       };
 
       project.files.push(fileData);
       await project.save();
 
-      res.json(project);
+      // Return the project with populated file info
+      res.status(201).json({
+        message: "File uploaded successfully",
+        project: project,
+      });
     } catch (error) {
+      console.error("Upload error:", error);
       res.status(500).json({ message: "Server error", error: error.message });
     }
   }
 );
+
 
 // Get single project
 router.get("/:id", authenticate, async (req, res) => {
@@ -152,18 +165,17 @@ router.delete("/:projectId/files/:fileId", authenticate, async (req, res) => {
       return res.status(400).json({ message: "Invalid file ID" });
     }
 
-    console.log("Deleting file:", fileId, "from project:", projectId);
-
     const project = await Project.findOne({
       _id: projectId,
       userId: req.user._id,
     });
-    if (!project) return res.status(404).json({ message: "Project not found" });
+    
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
+    }
 
-    const file = project.files.id(fileId);
-    if (!file) return res.status(404).json({ message: "File not found" });
-
-    file.remove();
+    // Use pull() method instead of remove()
+    project.files.pull(fileId);
     await project.save();
 
     res.json({ message: "File deleted successfully" });
@@ -172,5 +184,6 @@ router.delete("/:projectId/files/:fileId", authenticate, async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 });
+
 
 export default router;
