@@ -109,73 +109,59 @@
   margin-bottom: 16px;
 }
 
-.files-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+
+/* new css for file */
+.file-list {
+  margin-top: 1rem;
+  width: 100%;
 }
 
+.file-header,
 .file-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px;
-  background: #f8fafc;
-  border-radius: 8px;
-  border: 1px solid #e2e8f0;
-  /* border: 1px solid red; */
+  padding: 8px 12px;
+  border-bottom: 1px solid #ddd;
 }
 
-.file-icon {
-  font-size: 20px;
+.file-header {
+  font-weight: bold;
+  background-color: #f2f2f2;
 }
 
-.file-info {
+.file-col {
+  flex: 1;
+  padding: 4px 8px;
+  word-break: break-word;
+}
+
+.file-col.no {
+  width: 40px;
+  flex: none;
+}
+
+.file-col.actions {
   display: flex;
-  width: 100%;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.file-name {
-  font-weight: 500;
-  color: #1f2937;
-  font-size: 14px;
-}
-
-.file-date {
-  font-size: 12px;
-  color: #6b7280;
-  margin-top: 2px;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .upload-area {
-    padding: 32px 16px;
-  }
-  
-  .upload-content h3 {
-    font-size: 16px;
-  }
-  
-  .file-upload-section {
-    padding: 16px;
-  }
-}
-.btn-action{
-  border: 1px solid #e2e8f0;
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   gap: 8px;
+  flex: none;
 }
-.delete-btn{
-  color: red;
+
+.btn-action {
+  padding: 4px 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.view-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+}
+
+.delete-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
 }

@@ -22,12 +22,21 @@ const Dashboard = () => {
     try {
       const response = await axios.get(`${baseURL}/api/projects`);
       setProjects(response.data);
+
+      // Update selectedProject with the latest data from the updated list
+      if (selectedProject) {
+        const updated = response.data.find(
+          (proj) => proj._id === selectedProject._id
+        );
+        if (updated) setSelectedProject(updated);
+      }
     } catch (error) {
-      console.error('Error fetching projects:', error);
+      console.error("Error fetching projects:", error);
     } finally {
       setLoading(false);
     }
   };
+  
 
   const handleCreateProject = async (projectName) => {
     try {

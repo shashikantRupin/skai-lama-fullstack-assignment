@@ -3,7 +3,11 @@ import axios from 'axios';
 import './FileUpload.css';
 const baseURL = import.meta.env.VITE_API_BASE_URL;
 
-const FileUpload = ({ project, onUploadSuccess }) => {
+const FileUpload = ({
+  project,
+  onUploadSuccess,
+  
+}) => {
   const [isDragOver, setIsDragOver] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -40,18 +44,24 @@ const FileUpload = ({ project, onUploadSuccess }) => {
 
     // Check file type
     const allowedTypes = [
-      'audio/mpeg', 'audio/mp3', 'audio/wav', 'audio/ogg',
-      'video/mp4', 'video/mpeg', 'video/quicktime',
-      'text/plain', 'application/pdf'
+      "audio/mpeg",
+      "audio/mp3",
+      "audio/wav",
+      "audio/ogg",
+      "video/mp4",
+      "video/mpeg",
+      "video/quicktime",
+      "text/plain",
+      "application/pdf",
     ];
 
     if (!allowedTypes.includes(file.type)) {
-      alert('Please select a valid audio, video, or text file');
+      alert("Please select a valid audio, video, or text file");
       return;
     }
 
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append("file", file);
 
     setUploading(true);
     setUploadProgress(0);
@@ -74,15 +84,15 @@ const FileUpload = ({ project, onUploadSuccess }) => {
       );
 
       onUploadSuccess();
-      alert('File uploaded successfully!');
+      alert("File uploaded successfully!");
     } catch (error) {
-      console.error('Upload error:', error);
-      alert('Failed to upload file. Please try again.');
+      console.error("Upload error:", error);
+      alert("Failed to upload file. Please try again.");
     } finally {
       setUploading(false);
       setUploadProgress(0);
       if (fileInputRef.current) {
-        fileInputRef.current.value = '';
+        fileInputRef.current.value = "";
       }
     }
   };
@@ -129,7 +139,8 @@ const FileUpload = ({ project, onUploadSuccess }) => {
       alert("Unable to delete file");
     }
   };
-  
+
+  // console.log("project", project);
 
   return (
     <div className="file-upload-section">
@@ -202,17 +213,24 @@ const FileUpload = ({ project, onUploadSuccess }) => {
         )}
       </div>
 
-      {project.files.map((file, index) => (
-        <div key={index} className="file-item">
-          <div className="file-icon">📄</div>
-          <div className="file-info">
-            <div>
-              <div className="file-name">{file.originalName}</div>
-              <div className="file-date">
-                {new Date(file.uploadDate).toLocaleDateString()}
-              </div>
+      <div className="file-list">
+        {/* Header Row */}
+        <div className="file-header">
+          <div className="file-col no">No</div>
+          <div className="file-col name">Name</div>
+          <div className="file-col date">Upload Date & Time</div>
+          <div className="file-col actions">Actions</div>
+        </div>
+
+        {project.files.map((file, index) => (
+          <div key={file._id} className="file-item">
+            <div className="file-col no">{index + 1}</div>
+            <div className="file-col name">{file.originalName}</div>
+            <div className="file-col date">
+              {new Date(file.uploadDate).toLocaleDateString()}{" "}
+              {new Date(file.uploadDate).toLocaleTimeString()}
             </div>
-            <div className="file-actions">
+            <div className="file-col actions">
               <button
                 className="btn-action btn-sm view-btn"
                 onClick={() => handleView(file._id)}
@@ -227,11 +245,10 @@ const FileUpload = ({ project, onUploadSuccess }) => {
               </button>
             </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
-  
 };
 
 export default FileUpload;
