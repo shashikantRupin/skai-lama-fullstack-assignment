@@ -25,12 +25,11 @@ mongoose
   .catch((err) => console.error("MongoDB connection error:", err));
 
 // 🟡 Only run server locally (not needed in Vercel serverless environment)
-if (process.env.NODE_ENV !== "production") {
   const PORT = process.env.PORT || 5000;
   app.listen(PORT, () => {
     console.log(`Server running locally on port ${PORT}`);
   });
-}
+
 
 // Export the app for Vercel
 export default app;
