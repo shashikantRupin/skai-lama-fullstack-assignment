@@ -1,41 +1,32 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useAuth } from '../context/AuthContext';
 import ProjectModal from './ProjectModal';
 import FileUpload from './FileUpload';
 import axios from 'axios';
 import './Dashboard.css';
+import { DasboardContext } from '../context/DasboardContext';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const baseURL =import.meta.env.VITE_API_BASE_URL;
 
 const Dashboard = () => {
   const { user, logout } = useAuth();
-  const [projects, setProjects] = useState([]);
   const [showProjectModal, setShowProjectModal] = useState(false);
-  const [selectedProject, setSelectedProject] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const navigate=useNavigate()
+
+  const {
+    projects,
+    setProjects,
+    loading,
+    fetchProjects,
+    selectedProject,
+    setSelectedProject,
+  } = useContext(DasboardContext);
 
   useEffect(() => {
     fetchProjects();
   }, []);
 
-  const fetchProjects = async () => {
-    try {
-      const response = await axios.get(`${baseURL}/api/projects`);
-      setProjects(response.data);
-
-      // Update selectedProject with the latest data from the updated list
-      if (selectedProject) {
-        const updated = response.data.find(
-          (proj) => proj._id === selectedProject._id
-        );
-        if (updated) setSelectedProject(updated);
-      }
-    } catch (error) {
-      console.error("Error fetching projects:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
   
 
   const handleCreateProject = async (projectName) => {
@@ -51,8 +42,10 @@ const Dashboard = () => {
     }
   };
 
-  const handleProjectSelect = (project) => {
+  const handleselectedProject = (project) => {
+    console.log("project", project)
     setSelectedProject(project);
+    navigate("/folderDetail");
   };
 
   if (loading) {
@@ -116,7 +109,7 @@ const Dashboard = () => {
                     className={`project-card ${
                       selectedProject?._id === project._id ? "selected" : ""
                     }`}
-                    onClick={() => handleProjectSelect(project)}
+                    onClick={() => handleselectedProject(project)}
                   >
                     <div className="project-header">
                       <h3>{project.name}</h3>
@@ -152,10 +145,10 @@ const Dashboard = () => {
                 </p>
               </div>
 
-              <FileUpload
+              {/* <FileUpload
                 project={selectedProject}
                 onUploadSuccess={fetchProjects}
-              />
+              /> */}
             </div>
           )}
         </div>

@@ -1,17 +1,19 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useContext } from 'react';
 import axios from 'axios';
 import './FileUpload.css';
+import { DasboardContext } from '../context/DasboardContext';
+import PodcastUpload from './PodCastUpload';
 const baseURL = import.meta.env.VITE_API_BASE_URL;
 
-const FileUpload = ({
-  project,
-  onUploadSuccess,
-  
-}) => {
+const FileUpload = () => {
+
   const [isDragOver, setIsDragOver] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const fileInputRef = useRef(null);
+  
+  const { selectedProject, fetchProjects } = useContext(DasboardContext);
+
 
   const handleDragOver = (e) => {
     e.preventDefault();
@@ -68,7 +70,7 @@ const FileUpload = ({
 
     try {
       await axios.post(
-        `${baseURL}/api/projects/${project._id}/upload`,
+        `${baseURL}/api/projects/${selectedProject._id}/upload`,
         formData,
         {
           headers: {
@@ -83,7 +85,7 @@ const FileUpload = ({
         }
       );
 
-      onUploadSuccess();
+      fetchProjects();
       alert("File uploaded successfully!");
     } catch (error) {
       console.error("Upload error:", error);
@@ -100,7 +102,7 @@ const FileUpload = ({
   const handleView = async (fileId) => {
     try {
       const response = await axios.get(
-        `${baseURL}/api/projects/${project._id}/files/${fileId}`,
+        `${baseURL}/api/projects/${selectedProject._id}/files/${fileId}`,
         {
           responseType: "blob",
           headers: {
@@ -125,7 +127,7 @@ const FileUpload = ({
 
     try {
       await axios.delete(
-        `${baseURL}/api/projects/${project._id}/files/${fileId}`,
+        `${baseURL}/api/projects/${selectedProject._id}/files/${fileId}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -133,7 +135,7 @@ const FileUpload = ({
         }
       );
       alert("File deleted successfully");
-      onUploadSuccess(); // refresh file list
+      fetchProjects(); // refresh file list
     } catch (error) {
       console.error("Error deleting file:", error);
       alert("Unable to delete file");
@@ -144,6 +146,7 @@ const FileUpload = ({
 
   return (
     <div className="file-upload-section">
+    <PodcastUpload/>
       <div
         className={`upload-area ${isDragOver ? "dragover" : ""} ${
           uploading ? "uploading" : ""
@@ -222,12 +225,12 @@ const FileUpload = ({
           <div className="file-col actions">Actions</div>
         </div>
 
-        {project.files.length === 0 ? (
+        {selectedProject.files.length === 0 ? (
           <div className="no-files-message">
             📂 No files uploaded for this project yet.
           </div>
         ) : (
-          project.files.map((file, index) => (
+          selectedProject.files.map((file, index) => (
             <div key={file._id} className="file-item">
               <div className="file-col no">{index + 1}</div>
               <div className="file-col name">{file.originalName}</div>
