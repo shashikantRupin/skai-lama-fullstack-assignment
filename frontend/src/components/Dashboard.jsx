@@ -5,7 +5,7 @@ import FileUpload from './FileUpload';
 import axios from 'axios';
 import './Dashboard.css';
 import { DasboardContext } from '../context/DasboardContext';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const baseURL =import.meta.env.VITE_API_BASE_URL;
 

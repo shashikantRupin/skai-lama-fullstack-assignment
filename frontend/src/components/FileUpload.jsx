@@ -190,8 +190,8 @@ const FileUpload = () => {
             <p className="upload-status">Uploading file...</p>
           </div>
         ) : (
-          <div className="upload-content">
-            <div className="upload-icon">
+          <div className="upload-content-file">
+            <div className="upload-icon-file">
               <svg
                 width="48"
                 height="48"
@@ -209,7 +209,7 @@ const FileUpload = () => {
             <p className="file-types">
               MP3, WAV, MP4, TXT, PDF files up to 100MB
             </p>
-            <button type="button" className="btn btn-primary upload-btn">
+            <button type="button" className="btn btn-primary upload-btn-file">
               Select File
             </button>
           </div>

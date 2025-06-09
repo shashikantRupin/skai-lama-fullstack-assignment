@@ -32,14 +32,14 @@
   background: rgba(139, 92, 246, 0.02);
 }
 
-.upload-content h3 {
+.upload-content-file h3 {
   font-size: 18px;
   font-weight: 600;
   color: #1f2937;
   margin: 16px 0 8px;
 }
 
-.upload-content p {
+.upload-content-file p {
   color: #6b7280;
   margin-bottom: 8px;
 }
@@ -50,11 +50,11 @@
   margin-bottom: 24px;
 }
 
-.upload-btn {
+.upload-btn-file {
   margin-top: 8px;
 }
 
-.upload-icon {
+.upload-icon-file {
   width: 48px;
   height: 48px;
   margin: 0 auto;
