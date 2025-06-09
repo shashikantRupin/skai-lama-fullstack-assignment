@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./PodcastUpload.css";
+import "./PodCastUpload.css";
 
 function PodcastUpload() {
   const [isModalOpen, setIsModalOpen] = useState(false);
