@@ -222,30 +222,36 @@ const FileUpload = ({
           <div className="file-col actions">Actions</div>
         </div>
 
-        {project.files.map((file, index) => (
-          <div key={file._id} className="file-item">
-            <div className="file-col no">{index + 1}</div>
-            <div className="file-col name">{file.originalName}</div>
-            <div className="file-col date">
-              {new Date(file.uploadDate).toLocaleDateString()}{" "}
-              {new Date(file.uploadDate).toLocaleTimeString()}
-            </div>
-            <div className="file-col actions">
-              <button
-                className="btn-action btn-sm view-btn"
-                onClick={() => handleView(file._id)}
-              >
-                View
-              </button>
-              <button
-                className="btn-action btn-sm delete-btn"
-                onClick={() => handleDelete(file._id)}
-              >
-                Delete
-              </button>
-            </div>
+        {project.files.length === 0 ? (
+          <div className="no-files-message">
+            📂 No files uploaded for this project yet.
           </div>
-        ))}
+        ) : (
+          project.files.map((file, index) => (
+            <div key={file._id} className="file-item">
+              <div className="file-col no">{index + 1}</div>
+              <div className="file-col name">{file.originalName}</div>
+              <div className="file-col date">
+                {new Date(file.uploadDate).toLocaleDateString()}{" "}
+                {new Date(file.uploadDate).toLocaleTimeString()}
+              </div>
+              <div className="file-col actions">
+                <button
+                  className="btn-action btn-sm view-btn"
+                  onClick={() => handleView(file._id)}
+                >
+                  View
+                </button>
+                <button
+                  className="btn-action btn-sm delete-btn"
+                  onClick={() => handleDelete(file._id)}
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );
