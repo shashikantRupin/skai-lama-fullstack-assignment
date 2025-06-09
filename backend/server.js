@@ -9,14 +9,23 @@ dotenv.config();
 
 const app = express();
 
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://skai-lama-fullstack-assignment-5ogz.vercel.app/",
+];
+
 app.use(
   cors({
-    origin: "*", //Allows any origin
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true, // ✅ Only if using cookies or sessions
   })
 );
-
 app.use(express.json());
 app.use("/uploads", express.static("uploads"));
 
