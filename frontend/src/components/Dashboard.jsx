@@ -134,23 +134,6 @@ const Dashboard = () => {
               </div>
             )}
           </div>
-
-          {selectedProject && (
-            <div className="section">
-              <div className="section-header">
-                <h2>Upload Files</h2>
-                <p>
-                  Add podcast media or transcription text to "
-                  {selectedProject.name}"
-                </p>
-              </div>
-
-              {/* <FileUpload
-                project={selectedProject}
-                onUploadSuccess={fetchProjects}
-              /> */}
-            </div>
-          )}
         </div>
       </main>
 

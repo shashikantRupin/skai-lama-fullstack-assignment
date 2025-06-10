@@ -23,7 +23,7 @@ app.use(
         callback(new Error("Not allowed by CORS"));
       }
     },
-    credentials: true, // ✅ Only if using cookies or sessions
+    credentials: true, 
   })
 );
 app.use(express.json());
@@ -39,12 +39,10 @@ mongoose
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
-// 🟡 Only run server locally (not needed in Vercel serverless environment)
   const PORT = process.env.PORT || 5000;
   app.listen(PORT, () => {
     console.log(`Server running locally on port ${PORT}`);
   });
 
 
-// Export the app for Vercel
 export default app;

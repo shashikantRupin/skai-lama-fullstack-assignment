@@ -1,9 +1,13 @@
 import { useState } from "react";
 import "./PodCastUpload.css";
+import { useContext } from "react";
+import { DasboardContext } from "../context/DasboardContext";
 
 function PodcastUpload() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedSection, setSelectedSection] = useState("");
+
+  const { selectedProject } = useContext(DasboardContext);
 
   const handleSectionClick = (sectionType) => {
     setSelectedSection(sectionType);
@@ -24,7 +28,7 @@ function PodcastUpload() {
   return (
     <div className="podcast-upload-container">
       <div className="breadcrumb">
-        <span>🏠 Home Page / Sample Project / </span>
+        <span>🏠 Home Page / {selectedProject.name} / </span>
         <span className="current-page">Add your podcast</span>
       </div>
 
