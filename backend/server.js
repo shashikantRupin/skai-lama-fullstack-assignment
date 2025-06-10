@@ -11,7 +11,7 @@ const app = express();
 
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://skai-lama-fullstack-assignment-5ogz.vercel.app/",
+  "https://skai-lama-fullstack-assignment-5ogz.vercel.app",
 ];
 
 app.use(
